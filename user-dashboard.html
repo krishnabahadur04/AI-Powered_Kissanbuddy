@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Kissan Buddy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .dashboard-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .dashboard-header p {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .weather-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .weather-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4CAF50;
+        }
+
+        .weather-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .price-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .crop-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .crop-price {
+            font-weight: 600;
+            color: #4CAF50;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+        }
+
+        .recent-activities {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: #333;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .activity-time {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .header-actions {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .back-btn, .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn {
+            background: #6c757d;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+            
+            .header-actions {
+                position: static;
+                margin-bottom: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .back-btn, .logout-btn {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-actions">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        <button onclick="logout()" class="logout-btn">🚪 Logout</button>
+    </div>
+    
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1>Welcome back, Farmer!</h1>
+            <p>Here's your farming dashboard with all the essential information you need.</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Active Crops</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Acres Managed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">₹45,000</div>
+                <div class="stat-label">Monthly Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">98%</div>
+                <div class="stat-label">Crop Health</div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Weather Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">🌤️</div>
+                    <h3 class="card-title">Today's Weather</h3>
+                </div>
+                <div class="weather-info">
+                    <div class="weather-item">
+                        <div class="weather-value">28°C</div>
+                        <div class="weather-label">Temperature</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="weather-value">65%</div>
+                        <div class="weather-label">Humidity</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="weather-value">12 km/h</div>
+                        <div class="weather-label">Wind Speed</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="weather-value">20%</div>
+                        <div class="weather-label">Rain Chance</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Prices Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">💰</div>
+                    <h3 class="card-title">Market Prices</h3>
+                </div>
+                <ul class="price-list">
+                    <li class="price-item">
+                        <span class="crop-name">Wheat</span>
+                        <span class="crop-price">₹2,150/quintal</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Rice</span>
+                        <span class="crop-price">₹1,890/quintal</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Corn</span>
+                        <span class="crop-price">₹1,750/quintal</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Sugarcane</span>
+                        <span class="crop-price">₹350/quintal</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Cotton</span>
+                        <span class="crop-price">₹5,200/quintal</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">Quick Actions</h3>
+                </div>
+                <div class="quick-actions">
+                    <a href="#" class="action-btn">
+                        <span class="action-icon">🌱</span>
+                        <span>Add Crop</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <span class="action-icon">📊</span>
+                        <span>View Reports</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <span class="action-icon">🔬</span>
+                        <span>Soil Test</span>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <span class="action-icon">💬</span>
+                        <span>Get Advice</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activities Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <h3 class="card-title">Recent Activities</h3>
+                </div>
+                <ul class="recent-activities">
+                    <li class="activity-item">
+                        <div class="activity-icon">🌾</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Wheat harvest completed</p>
+                            <p class="activity-time">2 hours ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">💧</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Irrigation scheduled for Field A</p>
+                            <p class="activity-time">5 hours ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">🔬</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Soil test results received</p>
+                            <p class="activity-time">1 day ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">📈</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Market price alert: Rice prices up</p>
+                            <p class="activity-time">2 days ago</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Crop Status Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">🌿</div>
+                    <h3 class="card-title">Crop Status</h3>
+                </div>
+                <ul class="price-list">
+                    <li class="price-item">
+                        <span class="crop-name">Wheat (Field A)</span>
+                        <span class="crop-price" style="color: #28a745;">Healthy</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Rice (Field B)</span>
+                        <span class="crop-price" style="color: #ffc107;">Needs Water</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Corn (Field C)</span>
+                        <span class="crop-price" style="color: #28a745;">Excellent</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Tomatoes (Greenhouse)</span>
+                        <span class="crop-price" style="color: #28a745;">Growing</span>
+                    </li>
+                    <li class="price-item">
+                        <span class="crop-name">Cotton (Field D)</span>
+                        <span class="crop-price" style="color: #dc3545;">Pest Alert</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Upcoming Tasks Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <h3 class="card-title">Upcoming Tasks</h3>
+                </div>
+                <ul class="recent-activities">
+                    <li class="activity-item">
+                        <div class="activity-icon">💧</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Irrigate Field B</p>
+                            <p class="activity-time">Tomorrow, 6:00 AM</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">🌱</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Plant winter crops</p>
+                            <p class="activity-time">In 3 days</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">🔬</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Soil testing for Field E</p>
+                            <p class="activity-time">Next week</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">🚜</div>
+                        <div class="activity-content">
+                            <p class="activity-title">Equipment maintenance</p>
+                            <p class="activity-time">In 2 weeks</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some basic interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for action buttons
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const action = this.querySelector('span:last-child').textContent;
+                    alert(`${action} feature coming soon!`);
+                });
+            });
+
+            // Simulate real-time updates
+            setInterval(function() {
+                const tempElement = document.querySelector('.weather-value');
+                if (tempElement) {
+                    const currentTemp = parseInt(tempElement.textContent);
+                    const newTemp = currentTemp + (Math.random() > 0.5 ? 1 : -1);
+                    tempElement.textContent = newTemp + '°C';
+                }
+            }, 30000); // Update every 30 seconds
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all stored user data
+                localStorage.removeItem('userSession');
+                localStorage.removeItem('kissanBuddyUser');
+                sessionStorage.clear();
+                
+                // Show logout message
+                alert('You have been successfully logged out!');
+                
+                // Redirect to home page
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
